@@ -8,7 +8,7 @@
       <input
         type="button"
         id="jump"
-        value="ジャンプ"
+        value="アクション１"
         style="position: absolute; left: 30%; z-index: 9999"
       />
     </div>
@@ -16,12 +16,13 @@
       <input
         type="button"
         id="move"
-        value="直進"
+        value="アクション２"
         style="position: absolute; left: 50%; z-index: 9999"
       />
     </div>
     <a-scene id="scene">
       <a-assets>
+        <!-- srcにモデルのリンクを入れる -->
         <a-asset-item
           id="model"
           src="./model/LE_char_002_girl_004.glb"
@@ -51,12 +52,17 @@
     </a-scene>
   </body>
   <script>
+    /* document
+            .getElementById("models")
+            .setAttribute("animation-mixer", "clip", "ここにアクションの名前を設定する"); */
     AFRAME.registerComponent("log", {
+      //デベロッパーツールでアクションの名前を確認する
       init: function () {
         const model = this.el;
         this.el.addEventListener("model-loaded", (e) => {
           console.log(this.el.components["gltf-model"].model.animations);
         });
+        //アクション１の設定
         document.getElementById("jump").addEventListener("click", () => {
           document
             .getElementById("models")
@@ -65,6 +71,7 @@
             document.getElementById("models").getAttribute("animation-mixer")
           );
         });
+        //アクション２の設定
         document.getElementById("move").addEventListener("click", () => {
           document
             .getElementById("models")
