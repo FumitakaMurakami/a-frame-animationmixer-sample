@@ -1,0 +1,79 @@
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.0/dist/aframe-extras.min.js"></script>
+  </head>
+  <body>
+    <div>
+      <input
+        type="button"
+        id="jump"
+        value="ジャンプ"
+        style="position: absolute; left: 30%; z-index: 9999"
+      />
+    </div>
+    <div>
+      <input
+        type="button"
+        id="move"
+        value="直進"
+        style="position: absolute; left: 50%; z-index: 9999"
+      />
+    </div>
+    <a-scene id="scene">
+      <a-assets>
+        <a-asset-item
+          id="model"
+          src="./model/LE_char_002_girl_004.glb"
+        ></a-asset-item>
+      </a-assets>
+      <a-entity
+        id="rig"
+        movement-controls="constrainToNavMesh: true; speed:0.1"
+      >
+        <a-entity
+          position="0 0 0"
+          camera
+          look-controls
+          wasd-controls
+        ></a-entity>
+      </a-entity>
+      <a-entity
+        gltf-model="#model"
+        id="models"
+        position="0 0 -1"
+        rotation="0 -90 0"
+        scale="0.1 0.1 0.1"
+        animation-mixer="clip: move"
+        log
+      ></a-entity>
+      <!-- <a-box color="red" posision="0 0 -4" scale="1 1 1"> -->
+    </a-scene>
+  </body>
+  <script>
+    AFRAME.registerComponent("log", {
+      init: function () {
+        const model = this.el;
+        this.el.addEventListener("model-loaded", (e) => {
+          console.log(this.el.components["gltf-model"].model.animations);
+        });
+        document.getElementById("jump").addEventListener("click", () => {
+          document
+            .getElementById("models")
+            .setAttribute("animation-mixer", "clip", "walk");
+          console.log(
+            document.getElementById("models").getAttribute("animation-mixer")
+          );
+        });
+        document.getElementById("move").addEventListener("click", () => {
+          document
+            .getElementById("models")
+            .setAttribute("animation-mixer", "clip", "[保留アクション].001");
+          console.log(
+            document.getElementById("models").getAttribute("animation-mixer")
+          );
+        });
+      },
+    });
+  </script>
+</html>
